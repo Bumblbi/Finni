@@ -1,0 +1,1842 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Питомец Финни API",
+    "description": "Игровая экономика. Все суммы — целые игровые монеты. Персональные данные не требуются.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/health/live": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Live",
+        "operationId": "live_health_live_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Live Health Live Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Ready",
+        "operationId": "ready_health_ready_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Ready Health Ready Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/profiles": {
+      "post": {
+        "tags": [
+          "profile"
+        ],
+        "summary": "Create Profile",
+        "operationId": "create_profile_api_v1_profiles_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileCreated"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/state": {
+      "get": {
+        "tags": [
+          "profile"
+        ],
+        "summary": "Get State",
+        "operationId": "get_state_api_v1_state_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/State"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/catalog": {
+      "get": {
+        "tags": [
+          "content"
+        ],
+        "summary": "Catalog",
+        "operationId": "catalog_api_v1_catalog_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CatalogItem"
+                  },
+                  "type": "array",
+                  "title": "Response Catalog Api V1 Catalog Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/income": {
+      "post": {
+        "tags": [
+          "economy"
+        ],
+        "summary": "Income",
+        "operationId": "income_api_v1_income_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Income"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/budget": {
+      "put": {
+        "tags": [
+          "economy"
+        ],
+        "summary": "Budget",
+        "operationId": "budget_api_v1_budget_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Budget"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/purchases": {
+      "post": {
+        "tags": [
+          "economy"
+        ],
+        "summary": "Purchase",
+        "operationId": "purchase_api_v1_purchases_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Purchase"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/savings/deposit": {
+      "post": {
+        "tags": [
+          "economy"
+        ],
+        "summary": "Deposit",
+        "operationId": "deposit_api_v1_savings_deposit_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Deposit"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/savings/withdraw": {
+      "post": {
+        "tags": [
+          "economy"
+        ],
+        "summary": "Withdraw",
+        "operationId": "withdraw_api_v1_savings_withdraw_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Withdraw"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/goal": {
+      "put": {
+        "tags": [
+          "economy"
+        ],
+        "summary": "Select Goal",
+        "operationId": "select_goal_api_v1_goal_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SelectGoal"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/quests/answer": {
+      "post": {
+        "tags": [
+          "quests"
+        ],
+        "summary": "Quest",
+        "operationId": "quest_api_v1_quests_answer_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnswerQuest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/periods/advance": {
+      "post": {
+        "tags": [
+          "economy"
+        ],
+        "summary": "Advance",
+        "operationId": "advance_api_v1_periods_advance_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Advance"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/pet": {
+      "put": {
+        "tags": [
+          "profile"
+        ],
+        "summary": "Customize",
+        "operationId": "customize_api_v1_pet_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Customize"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/sync": {
+      "post": {
+        "tags": [
+          "sync"
+        ],
+        "summary": "Sync",
+        "description": "Replay an ordered offline queue atomically. On any error, the whole batch rolls back.",
+        "operationId": "sync_api_v1_sync_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/transactions": {
+      "get": {
+        "tags": [
+          "economy"
+        ],
+        "summary": "Transactions",
+        "operationId": "transactions_api_v1_transactions_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  },
+                  "title": "Response Transactions Api V1 Transactions Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/adult/challenge": {
+      "post": {
+        "tags": [
+          "adult"
+        ],
+        "summary": "Challenge",
+        "operationId": "challenge_api_v1_adult_challenge_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Challenge Api V1 Adult Challenge Post"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/adult/unlock": {
+      "post": {
+        "tags": [
+          "adult"
+        ],
+        "summary": "Unlock",
+        "operationId": "unlock_api_v1_adult_unlock_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GateAnswer"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Unlock Api V1 Adult Unlock Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/adult/progress": {
+      "get": {
+        "tags": [
+          "adult"
+        ],
+        "summary": "Progress",
+        "operationId": "progress_api_v1_adult_progress_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-adult-token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Adult-Token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Progress Api V1 Adult Progress Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/adult/reset": {
+      "post": {
+        "tags": [
+          "adult"
+        ],
+        "summary": "Reset",
+        "operationId": "reset_api_v1_adult_reset_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-adult-token",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Adult-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Reset"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Advance": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Operation Id"
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Revision"
+          },
+          "epoch": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Epoch"
+          },
+          "action": {
+            "type": "string",
+            "const": "advance",
+            "title": "Action",
+            "default": "advance"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operation_id",
+          "expected_revision",
+          "epoch"
+        ],
+        "title": "Advance"
+      },
+      "AnswerQuest": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Operation Id"
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Revision"
+          },
+          "epoch": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Epoch"
+          },
+          "action": {
+            "type": "string",
+            "const": "quest",
+            "title": "Action",
+            "default": "quest"
+          },
+          "quest_id": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Quest Id"
+          },
+          "choice_id": {
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Choice Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operation_id",
+          "expected_revision",
+          "epoch",
+          "quest_id",
+          "choice_id"
+        ],
+        "title": "AnswerQuest"
+      },
+      "Appearance": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Name",
+            "default": "Финни"
+          },
+          "body": {
+            "type": "string",
+            "enum": [
+              "cat",
+              "fox",
+              "bunny"
+            ],
+            "title": "Body",
+            "default": "cat"
+          },
+          "color": {
+            "type": "string",
+            "enum": [
+              "mint",
+              "peach",
+              "lavender"
+            ],
+            "title": "Color",
+            "default": "mint"
+          },
+          "accessory": {
+            "type": "string",
+            "enum": [
+              "none",
+              "bow",
+              "hat"
+            ],
+            "title": "Accessory",
+            "default": "none"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Appearance"
+      },
+      "BalanceState": {
+        "properties": {
+          "wallet": {
+            "type": "integer",
+            "title": "Wallet"
+          },
+          "savings": {
+            "type": "integer",
+            "title": "Savings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "wallet",
+          "savings"
+        ],
+        "title": "BalanceState"
+      },
+      "Budget": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Operation Id"
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Revision"
+          },
+          "epoch": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Epoch"
+          },
+          "action": {
+            "type": "string",
+            "const": "budget",
+            "title": "Action",
+            "default": "budget"
+          },
+          "required": {
+            "type": "integer",
+            "maximum": 1000000.0,
+            "minimum": 0.0,
+            "title": "Required"
+          },
+          "wanted": {
+            "type": "integer",
+            "maximum": 1000000.0,
+            "minimum": 0.0,
+            "title": "Wanted"
+          },
+          "savings": {
+            "type": "integer",
+            "maximum": 1000000.0,
+            "minimum": 0.0,
+            "title": "Savings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operation_id",
+          "expected_revision",
+          "epoch",
+          "required",
+          "wanted",
+          "savings"
+        ],
+        "title": "Budget"
+      },
+      "CatalogItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "data"
+        ],
+        "title": "CatalogItem"
+      },
+      "CommandResult": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "title": "Operation Id"
+          },
+          "feedback": {
+            "type": "string",
+            "title": "Feedback"
+          },
+          "state": {
+            "$ref": "#/components/schemas/State"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operation_id",
+          "feedback",
+          "state"
+        ],
+        "title": "CommandResult"
+      },
+      "Customize": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Operation Id"
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Revision"
+          },
+          "epoch": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Epoch"
+          },
+          "action": {
+            "type": "string",
+            "const": "customize",
+            "title": "Action",
+            "default": "customize"
+          },
+          "pet": {
+            "$ref": "#/components/schemas/Appearance"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operation_id",
+          "expected_revision",
+          "epoch",
+          "pet"
+        ],
+        "title": "Customize"
+      },
+      "Deposit": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Operation Id"
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Revision"
+          },
+          "epoch": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Epoch"
+          },
+          "action": {
+            "type": "string",
+            "const": "deposit",
+            "title": "Action",
+            "default": "deposit"
+          },
+          "amount": {
+            "type": "integer",
+            "maximum": 1000000.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Amount"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operation_id",
+          "expected_revision",
+          "epoch",
+          "amount"
+        ],
+        "title": "Deposit"
+      },
+      "GateAnswer": {
+        "properties": {
+          "challenge_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Challenge Id"
+          },
+          "answer": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 0.0,
+            "title": "Answer"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "challenge_id",
+          "answer"
+        ],
+        "title": "GateAnswer"
+      },
+      "GoalState": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "target": {
+            "type": "integer",
+            "title": "Target"
+          },
+          "progress": {
+            "type": "integer",
+            "title": "Progress"
+          },
+          "achieved": {
+            "type": "boolean",
+            "title": "Achieved"
+          },
+          "estimated_periods": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Estimated Periods"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "target",
+          "progress",
+          "achieved",
+          "estimated_periods"
+        ],
+        "title": "GoalState"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Income": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Operation Id"
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Revision"
+          },
+          "epoch": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Epoch"
+          },
+          "action": {
+            "type": "string",
+            "const": "income",
+            "title": "Action",
+            "default": "income"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operation_id",
+          "expected_revision",
+          "epoch"
+        ],
+        "title": "Income"
+      },
+      "PeriodState": {
+        "properties": {
+          "number": {
+            "type": "integer",
+            "title": "Number"
+          },
+          "income_claimed": {
+            "type": "boolean",
+            "title": "Income Claimed"
+          },
+          "plan": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "integer"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Plan"
+          },
+          "spent_required": {
+            "type": "integer",
+            "title": "Spent Required"
+          },
+          "spent_wanted": {
+            "type": "integer",
+            "title": "Spent Wanted"
+          },
+          "saved": {
+            "type": "integer",
+            "title": "Saved"
+          },
+          "withdrawn": {
+            "type": "integer",
+            "title": "Withdrawn"
+          },
+          "closed": {
+            "type": "boolean",
+            "title": "Closed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "number",
+          "income_claimed",
+          "plan",
+          "spent_required",
+          "spent_wanted",
+          "saved",
+          "withdrawn",
+          "closed"
+        ],
+        "title": "PeriodState"
+      },
+      "PetState": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Name",
+            "default": "Финни"
+          },
+          "body": {
+            "type": "string",
+            "enum": [
+              "cat",
+              "fox",
+              "bunny"
+            ],
+            "title": "Body",
+            "default": "cat"
+          },
+          "color": {
+            "type": "string",
+            "enum": [
+              "mint",
+              "peach",
+              "lavender"
+            ],
+            "title": "Color",
+            "default": "mint"
+          },
+          "accessory": {
+            "type": "string",
+            "enum": [
+              "none",
+              "bow",
+              "hat"
+            ],
+            "title": "Accessory",
+            "default": "none"
+          },
+          "mood": {
+            "type": "integer",
+            "title": "Mood"
+          },
+          "satiety": {
+            "type": "integer",
+            "title": "Satiety"
+          },
+          "stage": {
+            "type": "integer",
+            "title": "Stage"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mood",
+          "satiety",
+          "stage"
+        ],
+        "title": "PetState"
+      },
+      "ProfileCreate": {
+        "properties": {
+          "nickname": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Nickname"
+          },
+          "pet": {
+            "$ref": "#/components/schemas/Appearance"
+          },
+          "demo": {
+            "type": "boolean",
+            "title": "Demo",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "nickname"
+        ],
+        "title": "ProfileCreate"
+      },
+      "ProfileCreated": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "token_type": {
+            "type": "string",
+            "const": "bearer",
+            "title": "Token Type",
+            "default": "bearer"
+          },
+          "state": {
+            "$ref": "#/components/schemas/State"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "access_token",
+          "state"
+        ],
+        "title": "ProfileCreated"
+      },
+      "Purchase": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Operation Id"
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Revision"
+          },
+          "epoch": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Epoch"
+          },
+          "action": {
+            "type": "string",
+            "const": "purchase",
+            "title": "Action",
+            "default": "purchase"
+          },
+          "product_id": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Product Id"
+          },
+          "quantity": {
+            "type": "integer",
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Quantity",
+            "default": 1
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operation_id",
+          "expected_revision",
+          "epoch",
+          "product_id"
+        ],
+        "title": "Purchase"
+      },
+      "Reset": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Operation Id"
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Revision"
+          },
+          "epoch": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Epoch"
+          },
+          "confirmed": {
+            "type": "boolean",
+            "const": true,
+            "title": "Confirmed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operation_id",
+          "expected_revision",
+          "epoch",
+          "confirmed"
+        ],
+        "title": "Reset"
+      },
+      "SelectGoal": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Operation Id"
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Revision"
+          },
+          "epoch": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Epoch"
+          },
+          "action": {
+            "type": "string",
+            "const": "goal",
+            "title": "Action",
+            "default": "goal"
+          },
+          "goal_id": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Goal Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operation_id",
+          "expected_revision",
+          "epoch",
+          "goal_id"
+        ],
+        "title": "SelectGoal"
+      },
+      "State": {
+        "properties": {
+          "profile_id": {
+            "type": "string",
+            "title": "Profile Id"
+          },
+          "nickname": {
+            "type": "string",
+            "title": "Nickname"
+          },
+          "demo": {
+            "type": "boolean",
+            "title": "Demo"
+          },
+          "revision": {
+            "type": "integer",
+            "title": "Revision"
+          },
+          "epoch": {
+            "type": "integer",
+            "title": "Epoch"
+          },
+          "pet": {
+            "$ref": "#/components/schemas/PetState"
+          },
+          "balance": {
+            "$ref": "#/components/schemas/BalanceState"
+          },
+          "period": {
+            "$ref": "#/components/schemas/PeriodState"
+          },
+          "goal": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GoalState"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "completed_quests": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Completed Quests"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "profile_id",
+          "nickname",
+          "demo",
+          "revision",
+          "epoch",
+          "pet",
+          "balance",
+          "period",
+          "goal",
+          "completed_quests"
+        ],
+        "title": "State"
+      },
+      "SyncRequest": {
+        "properties": {
+          "commands": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/Income"
+                },
+                {
+                  "$ref": "#/components/schemas/Budget"
+                },
+                {
+                  "$ref": "#/components/schemas/Purchase"
+                },
+                {
+                  "$ref": "#/components/schemas/Deposit"
+                },
+                {
+                  "$ref": "#/components/schemas/Withdraw"
+                },
+                {
+                  "$ref": "#/components/schemas/SelectGoal"
+                },
+                {
+                  "$ref": "#/components/schemas/AnswerQuest"
+                },
+                {
+                  "$ref": "#/components/schemas/Advance"
+                },
+                {
+                  "$ref": "#/components/schemas/Customize"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "action",
+                "mapping": {
+                  "advance": "#/components/schemas/Advance",
+                  "budget": "#/components/schemas/Budget",
+                  "customize": "#/components/schemas/Customize",
+                  "deposit": "#/components/schemas/Deposit",
+                  "goal": "#/components/schemas/SelectGoal",
+                  "income": "#/components/schemas/Income",
+                  "purchase": "#/components/schemas/Purchase",
+                  "quest": "#/components/schemas/AnswerQuest",
+                  "withdraw": "#/components/schemas/Withdraw"
+                }
+              }
+            },
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Commands"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "commands"
+        ],
+        "title": "SyncRequest"
+      },
+      "SyncResult": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/CommandResult"
+            },
+            "type": "array",
+            "title": "Results"
+          },
+          "state": {
+            "$ref": "#/components/schemas/State"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "results",
+          "state"
+        ],
+        "title": "SyncResult"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "Withdraw": {
+        "properties": {
+          "operation_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Operation Id"
+          },
+          "expected_revision": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Expected Revision"
+          },
+          "epoch": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Epoch"
+          },
+          "action": {
+            "type": "string",
+            "const": "withdraw",
+            "title": "Action",
+            "default": "withdraw"
+          },
+          "amount": {
+            "type": "integer",
+            "maximum": 1000000.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Amount"
+          },
+          "confirmed": {
+            "type": "boolean",
+            "const": true,
+            "title": "Confirmed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operation_id",
+          "expected_revision",
+          "epoch",
+          "amount",
+          "confirmed"
+        ],
+        "title": "Withdraw"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

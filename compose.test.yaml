@@ -1,0 +1,13 @@
+# Run after: docker compose exec db createdb -U finni finni_test
+services:
+  tests:
+    build:
+      context: .
+      target: test
+    environment:
+      DATABASE_URL: postgresql+psycopg://finni:${POSTGRES_PASSWORD}@db:5432/finni_test
+      TEST_DATABASE_URL: postgresql+psycopg://finni:${POSTGRES_PASSWORD}@db:5432/finni_test
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["sh", "-c", "alembic upgrade head && alembic check && python -m app.content content/catalog.json && alembic downgrade base && pytest -q"]

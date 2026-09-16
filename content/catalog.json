@@ -1,0 +1,19 @@
+[
+  {"id":"food","kind":"product","data":{"title":"Полезный обед","category":"required","price":20,"mood":2,"satiety":30}},
+  {"id":"water","kind":"product","data":{"title":"Чистая вода","category":"required","price":10,"mood":1,"satiety":10}},
+  {"id":"soap","kind":"product","data":{"title":"Мыло","category":"required","price":15,"mood":8,"satiety":0}},
+  {"id":"bed","kind":"product","data":{"title":"Уютная подстилка","category":"required","price":40,"mood":15,"satiety":0}},
+  {"id":"ball","kind":"product","data":{"title":"Мяч","category":"wanted","price":15,"mood":15,"satiety":0}},
+  {"id":"ribbon","kind":"product","data":{"title":"Лента","category":"wanted","price":10,"mood":8,"satiety":0}},
+  {"id":"toy","kind":"product","data":{"title":"Игрушка","category":"wanted","price":30,"mood":20,"satiety":0}},
+  {"id":"castle","kind":"product","data":{"title":"Игровой замок","category":"wanted","price":250,"mood":40,"satiety":0}},
+  {"id":"goal_house","kind":"goal","data":{"title":"Домик для Финни","target":150}},
+  {"id":"goal_trip","kind":"goal","data":{"title":"Поход с Финни","target":300}},
+  {"id":"goal_garden","kind":"goal","data":{"title":"Сад для Финни","target":500}},
+  {"id":"budget_1","kind":"quest","data":{"title":"План на день","topic":"budget","question":"У тебя 100 монет. Как поступить сначала?","reward":10,"choices":[{"id":"plan","text":"Запланировать расходы и сбережения","correct":true,"feedback":"План помогает оставить деньги на нужное."},{"id":"spend","text":"Сразу потратить всё","correct":false,"feedback":"Если потратить всё сразу, на важное может не хватить. Начни с плана."}]}},
+  {"id":"budget_2","kind":"quest","data":{"title":"Проверяем сумму","topic":"budget","question":"Можно ли распределить 120 монет, если есть 100?","reward":10,"choices":[{"id":"no","text":"Нет, надо уменьшить план","correct":true,"feedback":"План должен укладываться в доступную сумму."},{"id":"yes","text":"Да, монеты появятся сами","correct":false,"feedback":"Монеты не появляются сами. Распределяй только то, что есть."}]}},
+  {"id":"needs_1","kind":"quest","data":{"title":"Обед или игрушка","topic":"needs","question":"Финни голоден. Что купить сначала?","reward":10,"choices":[{"id":"food","text":"Полезный обед","correct":true,"feedback":"Еда — обязательная потребность. Игрушку можно купить позже."},{"id":"toy","text":"Новую игрушку","correct":false,"feedback":"Игрушка радует, но не заменяет обед. Сначала позаботься о потребностях."}]}},
+  {"id":"needs_2","kind":"quest","data":{"title":"Хочется всё","topic":"needs","question":"После обязательных покупок осталось мало монет. Что делать?","reward":10,"choices":[{"id":"wait","text":"Отложить необязательную покупку","correct":true,"feedback":"Желание можно отложить и накопить на него."},{"id":"all","text":"Потратить больше, чем есть","correct":false,"feedback":"Покупки должны укладываться в баланс. Попробуй подождать или выбрать дешевле."}]}},
+  {"id":"savings_1","kind":"quest","data":{"title":"Шаг к цели","topic":"savings","question":"Как накопить на домик?","reward":10,"choices":[{"id":"regular","text":"Откладывать понемногу каждый период","correct":true,"feedback":"Регулярные пополнения приближают цель."},{"id":"never","text":"Тратить всё и ждать","correct":false,"feedback":"Чтобы накопления росли, нужно оставлять часть дохода."}]}},
+  {"id":"savings_2","kind":"quest","data":{"title":"Монеты из копилки","topic":"savings","question":"Что будет, если снять монеты из копилки?","reward":10,"choices":[{"id":"later","text":"На цель может потребоваться больше времени","correct":true,"feedback":"Снятие возможно, но оставшуюся сумму придётся накопить заново."},{"id":"same","text":"Цель будет достигнута быстрее","correct":false,"feedback":"В копилке станет меньше монет, поэтому срок может увеличиться."}]}}
+]
