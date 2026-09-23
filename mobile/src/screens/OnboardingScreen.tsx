@@ -16,6 +16,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useProfileStore, usePetStore } from '../store';
+import { api } from '../api';
 import { PET_COMBOS, PetAppearance } from '../types/pet';
 import {
   Colors,
@@ -132,10 +133,32 @@ export default function OnboardingScreen() {
 
   const nextStep = () => setStep((s) => Math.min(3, s + 1) as Step);
 
-  const onFinish = (data: NameForm) => {
+  const onFinish = async (data: NameForm) => {
     const appearance = PET_COMBOS[selectedCombo]!;
     initPet(data.name, appearance);
-    completeOnboarding(data.name);
+    
+    let token = null;
+    let rev = 1;
+    let ep = 1;
+    try {
+      const res = await api.createProfile({
+        nickname: data.name,
+        pet: {
+          name: data.name,
+          body: appearance.bodyColor,
+          color: appearance.bodyColor, // mapping for backend
+          accessory: appearance.accessory,
+        },
+        demo: false,
+      });
+      token = res.access_token;
+      rev = res.state.revision;
+      ep = res.state.epoch;
+    } catch (e) {
+      console.log('Failed to create profile on backend, continuing offline', e);
+    }
+
+    completeOnboarding(data.name, token, rev, ep);
   };
 
   const isLastStep = step === 3;

@@ -2,6 +2,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSyncStore } from './syncStore';
 import { QuestStatus } from '../types/quest';
 import { QUESTS } from '../constants/quests';
 
@@ -29,14 +30,21 @@ export const useQuestStore = create<QuestStoreState & QuestStoreActions>()(
     (set, get) => ({
       statuses: initialStatuses,
 
-      completeQuest: (questId, choiceId) =>
+      completeQuest: (questId, choiceId) => {
         set((s) => ({
           statuses: s.statuses.map((st) =>
             st.questId === questId
               ? { ...st, completed: true, choiceId, completedAt: Date.now() }
               : st,
           ),
-        })),
+        }));
+        
+        useSyncStore.getState().enqueue({
+          action: 'quest',
+          quest_id: questId,
+          choice_id: choiceId,
+        });
+      },
 
       isCompleted: (questId) =>
         get().statuses.find((s) => s.questId === questId)?.completed ?? false,

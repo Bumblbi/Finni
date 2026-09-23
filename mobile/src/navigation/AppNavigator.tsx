@@ -3,6 +3,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useProfileStore } from '../store';
 import { CustomTabBar } from '../components/CustomTabBar';
@@ -36,6 +37,17 @@ function MainTabs() {
 
 export function AppNavigator() {
   const isOnboarded = useProfileStore((s) => s.isOnboarded);
+
+  React.useEffect(() => {
+    // Run sync when app mounts and then every 15 seconds
+    import('../store/syncStore').then(({ useSyncStore }) => {
+      useSyncStore.getState().syncNow();
+      const interval = setInterval(() => {
+        useSyncStore.getState().syncNow();
+      }, 15000);
+      return () => clearInterval(interval);
+    });
+  }, []);
 
   return (
     <NavigationContainer>

@@ -10,7 +10,7 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
-import { useProfileStore, usePetStore, useBudgetStore } from '../store';
+import { useProfileStore, usePetStore, useBudgetStore, useSyncStore } from '../store';
 import { ShopItem } from '../components/ShopItem';
 import { ShopProduct, MANDATORY_PRODUCTS, OPTIONAL_PRODUCTS } from '../constants/shop';
 import {
@@ -52,6 +52,13 @@ export default function ShopScreen() {
     const category =
       product.category === 'mandatory' ? 'mandatory' : 'desired';
     recordPurchase(category, product.price, product.name, currentPeriod);
+
+    // Sync to backend
+    useSyncStore.getState().enqueue({
+      action: 'purchase',
+      product_id: product.id,
+      quantity: 1,
+    });
 
     setPurchaseModal(product);
   };

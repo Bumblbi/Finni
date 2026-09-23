@@ -5,15 +5,14 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "icon": "./assets/icon.jpg",
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#F4F6FB"
+        "foregroundImage": "./assets/icon.jpg",
+        "backgroundColor": "#67D8AF"
       },
-      "package": "ru.finni.petapp",
-      "minSdkVersion": 26
+      "package": "ru.finni.petapp"
     },
-    "platforms": ["android"],
-    "sdkVersion": "52.0.0"
+    "platforms": ["android"]
   }
 }

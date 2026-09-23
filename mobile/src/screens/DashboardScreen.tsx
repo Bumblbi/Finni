@@ -7,8 +7,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   StatusBar,
-  SafeAreaView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList, TabParamList } from '../types/navigation';
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
@@ -355,7 +355,11 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   heroBg: {
-    ...StyleSheet.absoluteFillObject,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: 'rgba(103, 216, 175, 0.07)',
     borderRadius: Radius.card,
   },

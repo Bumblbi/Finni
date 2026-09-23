@@ -2,6 +2,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSyncStore } from './syncStore';
 import {
   BudgetPlan,
   BudgetActual,
@@ -56,7 +57,15 @@ export const useBudgetStore = create<BudgetStoreState & BudgetStoreActions>()(
       transactions: [],
       periodHistory: [],
 
-      setPlan: (plan) => set({ plan, actual: defaultActual }),
+      setPlan: (plan) => {
+        set({ plan, actual: defaultActual });
+        useSyncStore.getState().enqueue({
+          action: 'budget',
+          required: plan.mandatory,
+          wanted: plan.desired,
+          savings: plan.savings,
+        });
+      },
 
       recordPurchase: (category, amount, label, period) =>
         set((s) => ({

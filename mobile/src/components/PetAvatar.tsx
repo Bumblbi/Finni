@@ -51,9 +51,6 @@ export const PetAvatar: React.FC<PetAvatarProps> = ({
   const containerSize = size === 'large' ? 220 : 80;
   const stageLabel = GROWTH_STAGE_LABELS[pet.growthStage];
 
-  // Эмодзи-заглушка до появления реальных ассетов
-  const petEmoji = getPetEmoji(pet.growthStage, pet.mood);
-
   return (
     <Animated.View
       style={[
@@ -67,10 +64,11 @@ export const PetAvatar: React.FC<PetAvatarProps> = ({
       {/* Тень под питомцем */}
       <View style={[styles.shadow, { width: containerSize * 0.7 }]} />
 
-      {/* Эмодзи питомца (заглушка) */}
-      <Text style={[styles.petEmoji, { fontSize: containerSize * 0.65 }]}>
-        {petEmoji}
-      </Text>
+      {/* Изображение питомца */}
+      <Image
+        source={getPetImageSource(pet.growthStage, pet.mood)}
+        style={{ width: containerSize * 0.8, height: containerSize * 0.8, resizeMode: 'contain' }}
+      />
 
       {/* Плашка стадии */}
       {size === 'large' && (
@@ -82,10 +80,23 @@ export const PetAvatar: React.FC<PetAvatarProps> = ({
   );
 };
 
-function getPetEmoji(stage: PetGrowthStage, mood: number): string {
-  if (stage === 1) return mood > 50 ? '🐣' : '😟';
-  if (stage === 2) return mood > 50 ? '🦆' : '😔';
-  return mood > 50 ? '🦄' : '😤';
+import { petImages } from '../constants/petImages';
+
+function getPetImageSource(stage: PetGrowthStage, mood: number) {
+  // Защита от старых данных: если stage undefined или 0, ставим 1
+  const safeStage = stage || 1;
+  let key = '';
+
+  if (safeStage === 1) {
+    key = mood > 50 ? 'stage1_happy' : 'stage1_sad';
+  } else if (safeStage === 2) {
+    key = mood > 50 ? 'stage2_happy' : 'stage2_sad';
+  } else {
+    key = mood > 50 ? 'stage3_happy' : 'stage3_sad';
+  }
+
+  // Возвращаем URI вместо require
+  return { uri: petImages[key] };
 }
 
 const styles = StyleSheet.create({
@@ -99,10 +110,6 @@ const styles = StyleSheet.create({
     height: 16,
     borderRadius: 100,
     backgroundColor: 'rgba(138, 149, 165, 0.18)',
-  },
-  petEmoji: {
-    textAlign: 'center',
-    lineHeight: undefined,
   },
   stageBadge: {
     position: 'absolute',
