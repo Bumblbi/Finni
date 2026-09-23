@@ -14,5 +14,7 @@ export type TabParamList = {
 export type RootStackParamList = {
   Onboarding: undefined;
   Main: NavigatorScreenParams<TabParamList>;
-  QuestDetail: { questId: string };
+  Savings: undefined;
+  Progress: undefined;
+  Help: undefined;
 };

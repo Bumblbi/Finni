@@ -81,6 +81,17 @@ def enableMinifyInReleaseBuilds = (findProperty('android.enableMinifyInReleaseBu
  */
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
+def finniSigning = new Properties()
+def finniSigningFile = rootProject.file('../.secrets/release.properties')
+if (finniSigningFile.exists()) {
+    finniSigningFile.withInputStream { finniSigning.load(it) }
+}
+def signingValue = { name -> System.getenv('FINNI_' + name) ?: finniSigning.getProperty(name) }
+def hasReleaseSigning = ['STORE_FILE', 'STORE_PASSWORD', 'KEY_ALIAS', 'KEY_PASSWORD'].every { signingValue(it) }
+if (gradle.startParameter.taskNames.any { it.toLowerCase().contains('release') } && !hasReleaseSigning) {
+    throw new GradleException('Release signing is missing. Run mobile/scripts/create-release-key.ps1 or configure FINNI_* signing variables.')
+}
+
 android {
     ndkVersion rootProject.ext.ndkVersion
 
@@ -98,6 +109,14 @@ android {
         buildConfigField "String", "REACT_NATIVE_RELEASE_LEVEL", "\"${findProperty('reactNativeReleaseLevel') ?: 'stable'}\""
     }
     signingConfigs {
+        release {
+            if (hasReleaseSigning) {
+                storeFile rootProject.file(signingValue('STORE_FILE'))
+                storePassword signingValue('STORE_PASSWORD')
+                keyAlias signingValue('KEY_ALIAS')
+                keyPassword signingValue('KEY_PASSWORD')
+            }
+        }
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
@@ -110,9 +129,7 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             def enableShrinkResources = findProperty('android.enableShrinkResourcesInReleaseBuilds') ?: 'false'
             shrinkResources enableShrinkResources.toBoolean()
             minifyEnabled enableMinifyInReleaseBuilds

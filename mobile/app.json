@@ -7,6 +7,8 @@
     "userInterfaceStyle": "light",
     "icon": "./assets/icon.jpg",
     "android": {
+      "allowBackup": false,
+      "blockedPermissions": ["android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.SYSTEM_ALERT_WINDOW", "android.permission.VIBRATE"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.jpg",
         "backgroundColor": "#67D8AF"

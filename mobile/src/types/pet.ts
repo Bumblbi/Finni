@@ -25,7 +25,7 @@ export interface PetState {
   energy: number;
   /** 0–100: финансовая дисциплина (регулярность накоплений) */
   discipline: number;
-  /** Накопленные очки для перехода на следующую стадию */
+  /** Число успешных периодов */
   growthPoints: number;
 }
 
@@ -36,8 +36,8 @@ export const PET_OUTFITS: PetOutfit[] = ['hoodie_teal', 'hoodie_pink', 'hoodie_y
 
 export const GROWTH_THRESHOLDS: Record<PetGrowthStage, number> = {
   1: 0,
-  2: 100,
-  3: 250,
+  2: 2,
+  3: 4,
 };
 
 export const GROWTH_STAGE_LABELS: Record<PetGrowthStage, string> = {

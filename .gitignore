@@ -1,0 +1,10 @@
+# Local dependencies, build output, signing material and tooling caches
+**/node_modules/
+**/.expo/
+**/.artifacts/
+**/.secrets/
+.gradle-cache/
+**/*.keystore
+**/*.p12
+**/local.properties
+**/__pycache__/

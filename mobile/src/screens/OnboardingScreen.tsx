@@ -15,8 +15,8 @@ import {
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useProfileStore, usePetStore } from '../store';
-import { api } from '../api';
+import { useGameStore } from '../store/gameStore';
+import { Button, ui } from '../components/GameUI';
 import { PET_COMBOS, PetAppearance } from '../types/pet';
 import {
   Colors,
@@ -30,6 +30,7 @@ import {
 const nameSchema = z.object({
   name: z
     .string()
+    .trim()
     .min(1, 'Придумай имя питомцу!')
     .max(16, 'Имя слишком длинное (не более 16 символов)')
     .regex(
@@ -119,8 +120,11 @@ export default function OnboardingScreen() {
   const [step, setStep] = useState<Step>(0);
   const [selectedCombo, setSelectedCombo] = useState<number>(0);
 
-  const completeOnboarding = useProfileStore((s) => s.completeOnboarding);
-  const initPet = usePetStore((s) => s.initPet);
+  const start = useGameStore(s => s.start);
+  const busy = useGameStore(s => s.busy);
+  const error = useGameStore(s => s.error);
+  const notice = useGameStore(s => s.notice);
+  const [demo, setDemo] = useState(true);
 
   const {
     control,
@@ -134,31 +138,7 @@ export default function OnboardingScreen() {
   const nextStep = () => setStep((s) => Math.min(3, s + 1) as Step);
 
   const onFinish = async (data: NameForm) => {
-    const appearance = PET_COMBOS[selectedCombo]!;
-    initPet(data.name, appearance);
-    
-    let token = null;
-    let rev = 1;
-    let ep = 1;
-    try {
-      const res = await api.createProfile({
-        nickname: data.name,
-        pet: {
-          name: data.name,
-          body: appearance.bodyColor,
-          color: appearance.bodyColor, // mapping for backend
-          accessory: appearance.accessory,
-        },
-        demo: false,
-      });
-      token = res.access_token;
-      rev = res.state.revision;
-      ep = res.state.epoch;
-    } catch (e) {
-      console.log('Failed to create profile on backend, continuing offline', e);
-    }
-
-    completeOnboarding(data.name, token, rev, ep);
+    await start(data.name, PET_COMBOS[selectedCombo]!, demo);
   };
 
   const isLastStep = step === 3;
@@ -264,6 +244,8 @@ export default function OnboardingScreen() {
               <Text style={styles.heroEmoji}>✏️</Text>
               <Text style={styles.stepTitle}>{STEP_DATA[3].title}</Text>
               <Text style={styles.stepText}>{STEP_DATA[3].text}</Text>
+              <Text style={ui.text}>Стартовый доход — 100 монет. Игра сохраняется на этом устройстве и работает без интернета.</Text>
+              <Button title={demo ? '✓ Демо: 5 периодов без ожидания' : 'Обычный режим: период длится 24 часа'} onPress={() => setDemo(!demo)} />
 
               <Controller
                 control={control}
@@ -302,8 +284,11 @@ export default function OnboardingScreen() {
           )}
 
           {/* CTA Button */}
+          {notice && <Text style={ui.muted}>{notice}</Text>}
+          {error && <Text accessibilityRole="alert" style={ui.error}>{error}</Text>}
           <TouchableOpacity
             style={styles.nextBtn}
+            disabled={busy}
             onPress={isLastStep ? handleSubmit(onFinish) : nextStep}
             accessibilityLabel={STEP_DATA[step].btnLabel}
             accessibilityRole="button"
