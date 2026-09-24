@@ -1,11 +1,16 @@
 // src/api/types.ts
 
+/**
+ * API types synchronized with backend schemas.
+ * These types match the FastAPI backend models for profile, state, and sync.
+ */
+
 // Типы для профиля
 export interface Appearance {
   name: string;
-  body: 'cat' | 'fox' | 'bunny' | string; // На бэке cat/fox/bunny, но у нас утконос. Пока оставим как строка
-  color: 'mint' | 'peach' | 'lavender' | string;
-  accessory: 'none' | 'bow' | 'hat' | string;
+  body_color: 'brown' | 'orange' | 'gray';
+  accessory: 'none' | 'glasses' | 'hat' | 'bow';
+  outfit: 'hoodie_teal' | 'hoodie_pink' | 'hoodie_yellow';
 }
 
 export interface ProfileCreate {
@@ -15,11 +20,7 @@ export interface ProfileCreate {
 }
 
 // Типы состояния
-export interface PetState {
-  name: string;
-  body: string;
-  color: string;
-  accessory: string;
+export interface PetState extends Appearance {
   mood: number;
   satiety: number;
   stage: number;
@@ -33,7 +34,7 @@ export interface BalanceState {
 export interface PeriodState {
   number: number;
   income_claimed: boolean;
-  plan: Record<string, number> | null;
+  plan: { required: number; wanted: number; savings: number } | null;
   spent_required: number;
   spent_wanted: number;
   saved: number;
@@ -81,12 +82,31 @@ export interface SyncResult {
 }
 
 export interface SyncRequest {
-  commands: any[];
+  commands: ApiCommand[];
 }
 
 // Каталог
 export interface CatalogItem {
   id: string;
   kind: string;
-  data: any;
+  data: Record<string, unknown>;
 }
+
+// API-формат команд (с revision/epoch/operation_id)
+export interface ApiCommandBase {
+  operation_id: string;
+  expected_revision: number;
+  epoch: number;
+}
+
+export type ApiCommand = ApiCommandBase & (
+  | { action: 'income' }
+  | { action: 'budget'; required: number; wanted: number; savings: number }
+  | { action: 'purchase'; product_id: string; quantity: number }
+  | { action: 'deposit'; amount: number }
+  | { action: 'withdraw'; amount: number; confirmed: true }
+  | { action: 'goal'; goal_id: string }
+  | { action: 'quest'; quest_id: string; choice_id: string }
+  | { action: 'advance' }
+  | { action: 'customize'; pet: Appearance }
+);

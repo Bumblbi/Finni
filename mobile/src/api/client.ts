@@ -2,11 +2,27 @@
 
 import { Platform } from 'react-native';
 
-// Для Android эмулятора (10.0.2.2), для iOS и веба (localhost), для физического устройства (IP)
-// Вынесем в константу, которую можно легко поменять
-// Для работы с Expo Go на реальном устройстве, API_URL должен указывать на локальный IP компьютера.
-// Пока оставим localhost (подойдёт для эмуляторов и веба)
-export const API_URL = 'http://localhost:8080/api/v1'; 
+/**
+ * API client for communicating with the Finni backend.
+ * Used by syncService for offline-first synchronization.
+ *
+ * URL selection:
+ * - Android emulator: 10.0.2.2 (maps to host's localhost)
+ * - iOS simulator / Web: localhost
+ * - Physical device: replace with your machine's local IP
+ *
+ * In production, replace with the actual server URL.
+ */
+
+// @ts-ignore — __DEV__ is a React Native global
+const isDev = typeof __DEV__ !== 'undefined' ? __DEV__ : true;
+
+export const API_URL = isDev
+  ? Platform.select({
+      android: 'http://10.0.2.2:8080/api/v1',  // Android emulator → host localhost
+      default: 'http://localhost:8080/api/v1',   // iOS simulator, web
+    })!
+  : 'http://localhost:8080/api/v1'; // Production: update to real server URL
 
 class ApiClient {
   private _token: string | null = null;
@@ -39,10 +55,12 @@ class ApiClient {
       try {
         const errorBody = await response.json();
         if (errorBody.detail) {
-          errorDetail = typeof errorBody.detail === 'string' ? errorBody.detail : errorBody.detail.message || JSON.stringify(errorBody.detail);
+          errorDetail = typeof errorBody.detail === 'string'
+            ? errorBody.detail
+            : errorBody.detail.message || errorBody.detail.code || JSON.stringify(errorBody.detail);
         }
       } catch (e) {
-        // ignore
+        // ignore parse error
       }
       throw new Error(errorDetail);
     }

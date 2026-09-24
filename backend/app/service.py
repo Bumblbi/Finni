@@ -35,7 +35,7 @@ def state(db, profile):
     return {
         "profile_id": profile.id, "nickname": profile.nickname, "demo": profile.demo,
         "revision": profile.revision, "epoch": profile.epoch,
-        "pet": {k: getattr(pet, k) for k in ("name", "body", "color", "accessory", "mood", "satiety", "stage")},
+        "pet": {k: getattr(pet, k) for k in ("name", "body_color", "accessory", "outfit", "mood", "satiety", "stage")},
         "balance": {"wallet": balance.wallet, "savings": balance.savings},
         "period": {k: getattr(period, k) for k in ("number", "income_claimed", "plan", "spent_required", "spent_wanted", "saved", "withdrawn", "closed")},
         "goal": {"id": goal.content_id, "title": goal.title, "target": goal.target,
@@ -116,14 +116,18 @@ def execute(db, profile, command):
     elif action == "purchase":
         item = catalog_item(db, command.product_id, "product")
         cost = item.data["price"] * command.quantity
+        # Map catalog categories to period field names
+        cat_to_field = {"mandatory": "required", "required": "required", "optional": "wanted", "wanted": "wanted"}
+        field_suffix = cat_to_field.get(item.data["category"], item.data["category"])
         movement(db, profile, balance, "purchase", wallet=-cost, product_id=item.id,
                  quantity=command.quantity, category=item.data["category"], unit_price=item.data["price"])
-        field = "spent_" + item.data["category"]
+        field = "spent_" + field_suffix
         setattr(period, field, getattr(period, field) + cost)
         for field in ("mood", "satiety"):
             setattr(pet, field, max(0, min(100, getattr(pet, field) + item.data[field] * command.quantity)))
         feedback = "Покупка совершена."
-        if period.plan and getattr(period, "spent_" + item.data["category"]) > period.plan[item.data["category"]]:
+        plan_key = field_suffix  # "required" or "wanted"
+        if period.plan and getattr(period, "spent_" + field_suffix) > period.plan[plan_key]:
             feedback += " Расходы по этой категории превысили план — учти это в следующем периоде."
     elif action in ("deposit", "withdraw"):
         if action == "deposit":

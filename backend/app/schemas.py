@@ -14,9 +14,9 @@ class StrictModel(BaseModel):
 
 class Appearance(StrictModel):
     name: Name = "Финни"
-    body: Literal["cat", "fox", "bunny"] = "cat"
-    color: Literal["mint", "peach", "lavender"] = "mint"
-    accessory: Literal["none", "bow", "hat"] = "none"
+    body_color: Literal["brown", "orange", "gray"] = "brown"
+    accessory: Literal["none", "glasses", "hat", "bow"] = "none"
+    outfit: Literal["hoodie_teal", "hoodie_pink", "hoodie_yellow"] = "hoodie_teal"
 
 
 class ProfileCreate(StrictModel):

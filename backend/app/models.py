@@ -32,9 +32,9 @@ class Pet(Base):
     __tablename__ = "pets"
     profile_id: Mapped[str] = mapped_column(ForeignKey("profiles.id", ondelete="CASCADE"), primary_key=True)
     name: Mapped[str] = mapped_column(String(32))
-    body: Mapped[str] = mapped_column(String(20))
-    color: Mapped[str] = mapped_column(String(20))
+    body_color: Mapped[str] = mapped_column(String(20))
     accessory: Mapped[str] = mapped_column(String(20))
+    outfit: Mapped[str] = mapped_column(String(20))
     mood: Mapped[int] = mapped_column(default=70)
     satiety: Mapped[int] = mapped_column(default=70)
     stage: Mapped[int] = mapped_column(default=1)

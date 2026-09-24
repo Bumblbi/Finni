@@ -139,14 +139,21 @@ const storage = {
   },
 };
 const originalLoad = Module._load;
+const reactNativeStub = {
+  Platform: { select: (opts) => opts.default || opts.android || '' },
+  __esModule: true,
+  default: {},
+};
 Module._load = function(request, ...rest) {
-  return request === '@react-native-async-storage/async-storage' ? storage : originalLoad.call(this, request, ...rest);
+  if (request === '@react-native-async-storage/async-storage') return storage;
+  if (request === 'react-native') return reactNativeStub;
+  return originalLoad.call(this, request, ...rest);
 };
 const { useGameStore: store } = require('../src/store/gameStore.ts');
 Module._load = originalLoad;
 function clean() {
   memory.clear(); failWrites = false; deferWrite = null;
-  store.setState({ game: null, ready: false, busy: false, error: null, notice: null });
+  store.setState({ game: null, ready: false, busy: false, error: null, notice: null, pendingSync: 0 });
 }
 test('store restores a saved game and resets all current game fields durably', async () => {
   clean(); await store.getState().load();
