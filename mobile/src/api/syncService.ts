@@ -147,11 +147,11 @@ class SyncService {
    * Register a new profile on the server.
    * Returns access_token and initial state.
    */
-  async createProfile(nickname: string, pet: ApiCommand extends { action: 'customize'; pet: infer P } ? P : never, demo: boolean): Promise<ProfileCreated | null> {
+  async createProfile(nickname: string, pet: Extract<ApiCommand, { action: 'customize' }>['pet'], demo: boolean): Promise<ProfileCreated | null> {
     try {
       const result = await client.post<ProfileCreated>('/profiles', {
         nickname,
-        pet: { name: nickname, ...pet },
+        pet: { ...pet },
         demo,
       });
       await this.saveToken(result.access_token);

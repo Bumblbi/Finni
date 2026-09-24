@@ -132,6 +132,10 @@ let failWrites = false;
 let deferWrite = null;
 const storage = {
   getItem: async key => memory.get(key) ?? null,
+  multiRemove: async keys => {
+    if (failWrites) throw new Error('disk full');
+    for (const key of keys) memory.delete(key);
+  },
   setItem: async (key, value) => {
     if (failWrites) throw new Error('disk full');
     if (deferWrite) await deferWrite;
